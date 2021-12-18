@@ -1,7 +1,8 @@
-import {TelegramClient} from "telegram";
+import {Api, TelegramClient} from "telegram";
 import {StringSession} from "telegram/sessions";
 import {Auth} from "./auth/auth";
 import {loadSession, saveSession} from "./auth/session";
+import {transform} from "./eventTransformer";
 
 export class Telegram {
     private client: TelegramClient
@@ -24,6 +25,10 @@ export class Telegram {
             phoneNumber: async () => await this.auth.getPhone(),
             phoneCode: async () => await this.auth.getCode(),
             onError: (err) => console.log(err),
+        });
+
+        this.client.addEventHandler((update: Api.TypeUpdate) => {
+            const event = transform(update)
         });
 
         saveSession(<string><unknown>this.client.session.save())

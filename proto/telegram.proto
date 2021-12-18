@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package telegram;
+
+service Telegram {
+  rpc Login(LoginMessage) returns (Result) {};
+  rpc Sign(SignMessage) returns (Result) {};
+}
+
+message LoginMessage {
+  string phone = 1;
+}
+
+message SignMessage {
+  string code = 1;
+}
+
+message Result {
+  bool success = 1;
+}

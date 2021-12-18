@@ -35,10 +35,10 @@ export function startServer(client: Telegram) {
     const server = new grpc.Server();
 
     server.addService(TelegramService, new ServerImpl(client));
-    server.bind("127.0.0.1:50051", grpc.ServerCredentials.createInsecure());
+    server.bind(process.env.GRPC_HOST, grpc.ServerCredentials.createInsecure());
     server.start();
 
-    console.log("Server started, listening: 127.0.0.1:50051");
+    console.log("Server started, listening: " + process.env.GRPC_HOST);
 }
 
 process.on("uncaughtException", (err) => {

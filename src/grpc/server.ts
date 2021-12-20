@@ -2,8 +2,9 @@ import * as grpc from "grpc";
 
 import {sendUnaryData, ServerUnaryCall} from "grpc";
 import {ITelegramServer, TelegramService} from "./proto/telegram_grpc_pb";
-import {LoginMessage, Result, SignMessage} from "./proto/telegram_pb";
+import {LoginMessage, MeResponse, Result, SignMessage, User} from "./proto/telegram_pb";
 import {Telegram} from "../telegram/telegram";
+import {Empty} from "google-protobuf/google/protobuf/empty_pb";
 
 class ServerImpl implements ITelegramServer {
     private tgClient: Telegram
@@ -28,6 +29,37 @@ class ServerImpl implements ITelegramServer {
         result.setSuccess(true)
 
         callback(null, result);
+    }
+
+    async me(call: ServerUnaryCall<Empty>, callback: sendUnaryData<MeResponse>): Promise<void> {
+        const me = await this.tgClient.getMe()
+        const user = new User()
+
+        user.setId(me.id.toString())
+        user.setAccesshash(me.accessHash.toString())
+        user.setFirstname(me.firstName === null ? '' : me.firstName.toString())
+        user.setLastname(me.lastName === null ? '' : me.lastName.toString())
+        user.setPhone(me.phone.toString())
+        user.setSelf(me.self)
+        user.setContact(me.contact)
+        user.setMutualcontact(me.mutualContact)
+        user.setDeleted(me.deleted)
+        user.setBot(me.bot)
+        user.setBotchathistory(me.bot)
+        user.setBotnochats(me.botNochats)
+        user.setVerified(me.verified)
+        user.setRestricted(me.restricted)
+        user.setMin(me.min)
+        user.setBotinlinegeo(me.botInlineGeo)
+        user.setSupport(me.support)
+        user.setScam(me.scam)
+        user.setApplyminphoto(me.applyMinPhoto)
+        user.setFake(me.fake)
+
+        const result = new MeResponse()
+        result.setUser(user)
+
+        callback(null, result)
     }
 }
 

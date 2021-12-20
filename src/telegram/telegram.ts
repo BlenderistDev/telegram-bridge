@@ -3,6 +3,7 @@ import {StringSession} from "telegram/sessions";
 import {Auth} from "./auth/auth";
 import {loadSession, saveSession} from "./auth/session";
 import {transform} from "./eventTransformer";
+import User = Api.User;
 
 export class Telegram {
     private client: TelegramClient
@@ -42,9 +43,9 @@ export class Telegram {
         this.auth.sing(code)
     }
 
-    public getMe() {
-        if (this.client.connected) {
-            return this.client.getMe()
-        }
+    public getMe(): Promise<User> {
+        return this.client
+            .getMe(false)
+            .then(me => me instanceof User ? me : null)
     }
 }

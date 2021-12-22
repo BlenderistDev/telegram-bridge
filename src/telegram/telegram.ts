@@ -6,17 +6,21 @@ import {transform} from "./eventTransformer";
 import User = Api.User;
 import {TotalList} from "telegram/Helpers";
 import {Dialog} from "telegram/tl/custom/dialog";
+import {KafkaProducer} from "../kafka/kafka";
 
 export class Telegram {
+    private kafkaTopic = 'telegram-event'
     private client: TelegramClient
     private auth: Auth
+    private kafkaProducer: KafkaProducer
 
-    private constructor() {
+    private constructor(kafkaProducer: KafkaProducer) {
         this.auth = new Auth()
+        this.kafkaProducer = kafkaProducer
     }
 
-    public static createTelegramClient(): Promise<Telegram> {
-        const telegram = new Telegram();
+    public static createTelegramClient(kafkaProducer: KafkaProducer): Promise<Telegram> {
+        const telegram = new Telegram(kafkaProducer);
         return telegram.initClient().then(() => telegram)
     }
 
@@ -36,6 +40,7 @@ export class Telegram {
 
         this.client.addEventHandler((update: Api.TypeUpdate) => {
             const event = transform(update)
+            this.kafkaProducer.send(this.kafkaTopic, JSON.stringify(Object.fromEntries(event)))
         });
 
         saveSession(<string><unknown>this.client.session.save())

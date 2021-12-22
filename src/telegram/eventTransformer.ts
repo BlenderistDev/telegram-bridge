@@ -19,7 +19,7 @@ function keyIsForbidden(key: string): boolean {
     ].includes(key)
 }
 
-export const transform = (obj: object): Map<string, string> => {
+const transform = (obj: object): Map<string, string> => {
     const myMap = new Map<string, string>();
 
     for (const key in obj) {

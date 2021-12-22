@@ -6,8 +6,8 @@ export class KafkaProducer {
     public static init() {
         const kafkaProducer = new KafkaProducer();
         const client = new Kafka({
-            clientId: 'my-app',
-            brokers: ['localhost:29092']
+            clientId: process.env.KAFKA_CLIENT_ID,
+            brokers: [process.env.KAKFA_HOST]
         })
         kafkaProducer.client = client.producer()
         return kafkaProducer.client.connect()

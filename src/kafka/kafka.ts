@@ -3,6 +3,8 @@ import {Kafka, Producer, RecordMetadata} from 'kafkajs'
 export class KafkaProducer {
     private client: Producer
 
+    private constructor() {}
+
     public static init() {
         const kafkaProducer = new KafkaProducer();
         const client = new Kafka({

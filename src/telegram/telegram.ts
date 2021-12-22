@@ -2,7 +2,7 @@ import {Api, TelegramClient} from "telegram";
 import {StringSession} from "telegram/sessions";
 import {Auth} from "./auth/auth";
 import {loadSession, saveSession} from "./auth/session";
-import {transform} from "./eventTransformer";
+import {transformEvent} from "./eventTransformer";
 import User = Api.User;
 import {TotalList} from "telegram/Helpers";
 import {Dialog} from "telegram/tl/custom/dialog";
@@ -39,7 +39,7 @@ export class Telegram {
         });
 
         this.client.addEventHandler((update: Api.TypeUpdate) => {
-            const event = transform(update)
+            const event = transformEvent(update)
             this.kafkaProducer.send(this.kafkaTopic, JSON.stringify(Object.fromEntries(event)))
         });
 

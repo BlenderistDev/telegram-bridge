@@ -11,9 +11,13 @@ export class Telegram {
     private client: TelegramClient
     private auth: Auth
 
-    public constructor() {
+    private constructor() {
         this.auth = new Auth()
-        this.initClient()
+    }
+
+    public static createTelegramClient(): Promise<Telegram> {
+        const telegram = new Telegram();
+        return telegram.initClient().then(() => telegram)
     }
 
     private async initClient() {

@@ -4,6 +4,8 @@ import {Auth} from "./auth/auth";
 import {loadSession, saveSession} from "./auth/session";
 import {transform} from "./eventTransformer";
 import User = Api.User;
+import {TotalList} from "telegram/Helpers";
+import {Dialog} from "telegram/tl/custom/dialog";
 
 export class Telegram {
     private client: TelegramClient
@@ -47,5 +49,10 @@ export class Telegram {
         return this.client
             .getMe(false)
             .then(me => me instanceof User ? me : null)
+    }
+
+    public getDialogs(): Promise<TotalList<Dialog>> {
+        return this.client
+            .getDialogs({})
     }
 }

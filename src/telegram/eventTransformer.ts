@@ -28,7 +28,7 @@ const transform = (obj: object): Map<string, string> => {
     }
     const value = obj[key]
 
-    if (!obj.hasOwnProperty(key)) {
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) {
       continue
     }
 

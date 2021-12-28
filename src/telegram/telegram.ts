@@ -66,6 +66,10 @@ export class Telegram {
       .getDialogs({})
   }
 
+  public getUser (peer: EntityLike): Promise<Api.TypeInputPeer> {
+    return this.client.getInputEntity(peer)
+  }
+
   public sendMessage (peer: EntityLike, message: string) {
     return this.client.sendMessage(peer, { message: message })
   }

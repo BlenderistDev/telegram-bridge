@@ -7,6 +7,7 @@ import User = Api.User;
 import { TotalList } from 'telegram/Helpers'
 import { Dialog } from 'telegram/tl/custom/dialog'
 import { KafkaProducer } from '../kafka/kafka'
+import { EntityLike } from 'telegram/define'
 
 export class Telegram {
   private kafkaTopic = 'telegram-event'
@@ -63,5 +64,9 @@ export class Telegram {
   public getDialogs (): Promise<TotalList<Dialog>> {
     return this.client
       .getDialogs({})
+  }
+
+  public sendMessage (peer: EntityLike, message: string) {
+    return this.client.sendMessage(peer, { message: message })
   }
 }

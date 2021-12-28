@@ -2,7 +2,7 @@ import * as grpc from 'grpc'
 
 import { sendUnaryData, ServerUnaryCall } from 'grpc'
 import { ITelegramServer, TelegramService } from './proto/telegram_grpc_pb'
-import { LoginMessage, MeResponse, Result, SignMessage, User } from './proto/telegram_pb'
+import { LoginMessage, MeResponse, Result, SendMessageRequest, SignMessage, User } from './proto/telegram_pb'
 import { Telegram } from '../telegram/telegram'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
 
@@ -58,6 +58,15 @@ class ServerImpl implements ITelegramServer {
 
     const result = new MeResponse()
     result.setUser(user)
+
+    callback(null, result)
+  }
+
+  async send (call: ServerUnaryCall<SendMessageRequest>, callback: sendUnaryData<Result>): Promise<void> {
+    await this.tgClient.sendMessage(call.request.getPeer(), call.request.getMessage())
+
+    const result = new Result()
+    result.setSuccess(true)
 
     callback(null, result)
   }

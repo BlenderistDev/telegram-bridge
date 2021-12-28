@@ -6,7 +6,6 @@
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
-import * as google_protobuf_any_pb from "google-protobuf/google/protobuf/any_pb";
 
 export class LoginMessage extends jspb.Message { 
     getPhone(): string;
@@ -169,11 +168,8 @@ export namespace MeResponse {
 }
 
 export class SendMessageRequest extends jspb.Message { 
-
-    hasPeer(): boolean;
-    clearPeer(): void;
-    getPeer(): google_protobuf_any_pb.Any | undefined;
-    setPeer(value?: google_protobuf_any_pb.Any): SendMessageRequest;
+    getPeer(): string;
+    setPeer(value: string): SendMessageRequest;
     getMessage(): string;
     setMessage(value: string): SendMessageRequest;
 
@@ -189,7 +185,7 @@ export class SendMessageRequest extends jspb.Message {
 
 export namespace SendMessageRequest {
     export type AsObject = {
-        peer?: google_protobuf_any_pb.Any.AsObject,
+        peer: string,
         message: string,
     }
 }

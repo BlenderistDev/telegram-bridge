@@ -17,8 +17,6 @@ var global = Function('return this')();
 
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
 goog.object.extend(proto, google_protobuf_empty_pb);
-var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
-goog.object.extend(proto, google_protobuf_any_pb);
 goog.exportSymbol('proto.telegram.LoginMessage', null, global);
 goog.exportSymbol('proto.telegram.MeResponse', null, global);
 goog.exportSymbol('proto.telegram.Result', null, global);
@@ -1424,7 +1422,7 @@ proto.telegram.SendMessageRequest.prototype.toObject = function(opt_includeInsta
  */
 proto.telegram.SendMessageRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    peer: (f = msg.getPeer()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
+    peer: jspb.Message.getFieldWithDefault(msg, 1, ""),
     message: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
@@ -1463,8 +1461,7 @@ proto.telegram.SendMessageRequest.deserializeBinaryFromReader = function(msg, re
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new google_protobuf_any_pb.Any;
-      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
+      var value = /** @type {string} */ (reader.readString());
       msg.setPeer(value);
       break;
     case 2:
@@ -1501,11 +1498,10 @@ proto.telegram.SendMessageRequest.prototype.serializeBinary = function() {
 proto.telegram.SendMessageRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getPeer();
-  if (f != null) {
-    writer.writeMessage(
+  if (f.length > 0) {
+    writer.writeString(
       1,
-      f,
-      google_protobuf_any_pb.Any.serializeBinaryToWriter
+      f
     );
   }
   f = message.getMessage();
@@ -1519,39 +1515,20 @@ proto.telegram.SendMessageRequest.serializeBinaryToWriter = function(message, wr
 
 
 /**
- * optional google.protobuf.Any peer = 1;
- * @return {?proto.google.protobuf.Any}
+ * optional string peer = 1;
+ * @return {string}
  */
 proto.telegram.SendMessageRequest.prototype.getPeer = function() {
-  return /** @type{?proto.google.protobuf.Any} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_any_pb.Any, 1));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * @param {?proto.google.protobuf.Any|undefined} value
+ * @param {string} value
  * @return {!proto.telegram.SendMessageRequest} returns this
-*/
+ */
 proto.telegram.SendMessageRequest.prototype.setPeer = function(value) {
-  return jspb.Message.setWrapperField(this, 1, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.telegram.SendMessageRequest} returns this
- */
-proto.telegram.SendMessageRequest.prototype.clearPeer = function() {
-  return this.setPeer(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.telegram.SendMessageRequest.prototype.hasPeer = function() {
-  return jspb.Message.getField(this, 1) != null;
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

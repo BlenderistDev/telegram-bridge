@@ -7,7 +7,6 @@
 import * as grpc from "grpc";
 import * as telegram_pb from "./telegram_pb";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
-import * as google_protobuf_any_pb from "google-protobuf/google/protobuf/any_pb";
 
 interface ITelegramService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     login: ITelegramService_ILogin;

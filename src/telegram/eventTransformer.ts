@@ -1,12 +1,20 @@
 import { Api } from 'telegram'
 
+interface TelegramEvent {
+  name: string;
+  data: {[k: string]: string}
+}
+
 function prepare (obj: any) {
   obj.eventName = obj.className
   return obj
 }
 
-export const transformEvent = (obj: Api.TypeUpdate): Map<string, string> => {
-  return transform(prepare(obj))
+export const transformEvent = (obj: Api.TypeUpdate): TelegramEvent => {
+  return {
+    name: obj.className,
+    data: Object.fromEntries(transform(prepare(obj)))
+  }
 }
 
 function keyIsForbidden (key: string): boolean {

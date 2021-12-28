@@ -40,7 +40,7 @@ export class Telegram {
 
     this.client.addEventHandler((update: Api.TypeUpdate) => {
       const event = transformEvent(update)
-      this.kafkaProducer.send(this.kafkaTopic, JSON.stringify(Object.fromEntries(event)))
+      this.kafkaProducer.send(this.kafkaTopic, JSON.stringify(event))
     })
 
     saveSession(<string><unknown> this.client.session.save())

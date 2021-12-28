@@ -3,11 +3,13 @@ syntax = "proto3";
 package telegram;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
 
 service Telegram {
   rpc Login(LoginMessage) returns (Result) {};
   rpc Sign(SignMessage) returns (Result) {};
   rpc Me(google.protobuf.Empty) returns (MeResponse) {};
+  rpc Send(SendMessageRequest) returns (Result) {};
 }
 
 message LoginMessage {
@@ -47,4 +49,9 @@ message User {
 
 message MeResponse {
   User user = 1;
+}
+
+message SendMessageRequest {
+  google.protobuf.Any peer = 1;
+  string message = 2;
 }

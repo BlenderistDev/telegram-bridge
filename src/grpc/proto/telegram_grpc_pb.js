@@ -4,6 +4,7 @@
 var grpc = require('@grpc/grpc-js');
 var proto_telegram_pb = require('../proto/telegram_pb.js');
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
 
 function serialize_google_protobuf_Empty(arg) {
   if (!(arg instanceof google_protobuf_empty_pb.Empty)) {
@@ -47,6 +48,17 @@ function serialize_telegram_Result(arg) {
 
 function deserialize_telegram_Result(buffer_arg) {
   return proto_telegram_pb.Result.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_telegram_SendMessageRequest(arg) {
+  if (!(arg instanceof proto_telegram_pb.SendMessageRequest)) {
+    throw new Error('Expected argument of type telegram.SendMessageRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_SendMessageRequest(buffer_arg) {
+  return proto_telegram_pb.SendMessageRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_telegram_SignMessage(arg) {
@@ -94,6 +106,17 @@ var TelegramService = exports.TelegramService = {
     requestDeserialize: deserialize_google_protobuf_Empty,
     responseSerialize: serialize_telegram_MeResponse,
     responseDeserialize: deserialize_telegram_MeResponse,
+  },
+  send: {
+    path: '/telegram.Telegram/Send',
+    requestStream: false,
+    responseStream: false,
+    requestType: proto_telegram_pb.SendMessageRequest,
+    responseType: proto_telegram_pb.Result,
+    requestSerialize: serialize_telegram_SendMessageRequest,
+    requestDeserialize: deserialize_telegram_SendMessageRequest,
+    responseSerialize: serialize_telegram_Result,
+    responseDeserialize: deserialize_telegram_Result,
   },
 };
 

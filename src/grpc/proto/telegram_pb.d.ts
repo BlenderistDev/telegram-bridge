@@ -6,6 +6,7 @@
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
+import * as google_protobuf_any_pb from "google-protobuf/google/protobuf/any_pb";
 
 export class LoginMessage extends jspb.Message { 
     getPhone(): string;
@@ -164,5 +165,31 @@ export class MeResponse extends jspb.Message {
 export namespace MeResponse {
     export type AsObject = {
         user?: User.AsObject,
+    }
+}
+
+export class SendMessageRequest extends jspb.Message { 
+
+    hasPeer(): boolean;
+    clearPeer(): void;
+    getPeer(): google_protobuf_any_pb.Any | undefined;
+    setPeer(value?: google_protobuf_any_pb.Any): SendMessageRequest;
+    getMessage(): string;
+    setMessage(value: string): SendMessageRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): SendMessageRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: SendMessageRequest): SendMessageRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: SendMessageRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): SendMessageRequest;
+    static deserializeBinaryFromReader(message: SendMessageRequest, reader: jspb.BinaryReader): SendMessageRequest;
+}
+
+export namespace SendMessageRequest {
+    export type AsObject = {
+        peer?: google_protobuf_any_pb.Any.AsObject,
+        message: string,
     }
 }

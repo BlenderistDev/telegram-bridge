@@ -5,7 +5,6 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
-import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 export class LoginMessage extends jspb.Message { 
     getPhone(): string;
@@ -64,6 +63,26 @@ export class Result extends jspb.Message {
 export namespace Result {
     export type AsObject = {
         success: boolean,
+    }
+}
+
+export class GetUserRequest extends jspb.Message { 
+    getPeer(): string;
+    setPeer(value: string): GetUserRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetUserRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetUserRequest): GetUserRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetUserRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetUserRequest;
+    static deserializeBinaryFromReader(message: GetUserRequest, reader: jspb.BinaryReader): GetUserRequest;
+}
+
+export namespace GetUserRequest {
+    export type AsObject = {
+        peer: string,
     }
 }
 
@@ -144,24 +163,24 @@ export namespace User {
     }
 }
 
-export class MeResponse extends jspb.Message { 
+export class UserResponse extends jspb.Message { 
 
     hasUser(): boolean;
     clearUser(): void;
     getUser(): User | undefined;
-    setUser(value?: User): MeResponse;
+    setUser(value?: User): UserResponse;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): MeResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: MeResponse): MeResponse.AsObject;
+    toObject(includeInstance?: boolean): UserResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: UserResponse): UserResponse.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: MeResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): MeResponse;
-    static deserializeBinaryFromReader(message: MeResponse, reader: jspb.BinaryReader): MeResponse;
+    static serializeBinaryToWriter(message: UserResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UserResponse;
+    static deserializeBinaryFromReader(message: UserResponse, reader: jspb.BinaryReader): UserResponse;
 }
 
-export namespace MeResponse {
+export namespace UserResponse {
     export type AsObject = {
         user?: User.AsObject,
     }

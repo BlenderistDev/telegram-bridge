@@ -3,19 +3,31 @@ import * as grpc from 'grpc'
 import { Auth } from '../telegram/auth/auth'
 import { sendUnaryData, ServerUnaryCall } from 'grpc'
 import { ITelegramServer, TelegramService } from './proto/telegram_grpc_pb'
-import { LoginMessage, MeResponse, Result, SendMessageRequest, SignMessage, User } from './proto/telegram_pb'
+import {
+  GetUserRequest,
+  LoginMessage,
+  Result,
+  SendMessageRequest,
+  SignMessage,
+  User,
+  UserResponse
+} from './proto/telegram_pb'
 import { Telegram } from '../telegram/telegram'
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
+import { Api } from 'telegram'
 
 class ServerImpl implements ITelegramServer {
   private tgClient: Telegram
+  private auth: Auth
 
-  public constructor (client: Telegram) {
-    this.tgClient = client
+  public constructor (client: Promise<Telegram>, auth: Auth) {
+    client.then(client => {
+      this.tgClient = client
+    })
+    this.auth = auth
   }
 
   public login (call: grpc.ServerUnaryCall<LoginMessage>, callback: grpc.sendUnaryData<Result>) {
-    this.tgClient.login(call.request.getPhone())
+    this.auth.login(call.request.getPhone())
 
     const result = new Result()
     result.setSuccess(true)
@@ -24,41 +36,10 @@ class ServerImpl implements ITelegramServer {
   }
 
   sign (call: ServerUnaryCall<SignMessage>, callback: sendUnaryData<Result>): void {
-    this.tgClient.sign(call.request.getCode())
+    this.auth.sign(call.request.getCode())
 
     const result = new Result()
     result.setSuccess(true)
-
-    callback(null, result)
-  }
-
-  async me (call: ServerUnaryCall<Empty>, callback: sendUnaryData<MeResponse>): Promise<void> {
-    const me = await this.tgClient.getMe()
-    const user = new User()
-
-    user.setId(me.id.toString())
-    user.setAccesshash(me.accessHash.toString())
-    user.setFirstname(me.firstName === null ? '' : me.firstName.toString())
-    user.setLastname(me.lastName === null ? '' : me.lastName.toString())
-    user.setPhone(me.phone.toString())
-    user.setSelf(me.self)
-    user.setContact(me.contact)
-    user.setMutualcontact(me.mutualContact)
-    user.setDeleted(me.deleted)
-    user.setBot(me.bot)
-    user.setBotchathistory(me.bot)
-    user.setBotnochats(me.botNochats)
-    user.setVerified(me.verified)
-    user.setRestricted(me.restricted)
-    user.setMin(me.min)
-    user.setBotinlinegeo(me.botInlineGeo)
-    user.setSupport(me.support)
-    user.setScam(me.scam)
-    user.setApplyminphoto(me.applyMinPhoto)
-    user.setFake(me.fake)
-
-    const result = new MeResponse()
-    result.setUser(user)
 
     callback(null, result)
   }
@@ -71,12 +52,46 @@ class ServerImpl implements ITelegramServer {
 
     callback(null, result)
   }
+
+  async getUser (call: ServerUnaryCall<GetUserRequest>, callback: sendUnaryData<UserResponse>) {
+    const tgUser = await this.tgClient.getUser(call.request.getPeer())
+
+    if (tgUser instanceof Api.User) {
+      const responseUser = new User()
+      responseUser.setId(tgUser.id.toString())
+      responseUser.setAccesshash(tgUser.accessHash.toString())
+      responseUser.setFirstname(tgUser.firstName === null ? '' : tgUser.firstName.toString())
+      responseUser.setLastname(tgUser.lastName === null ? '' : tgUser.lastName.toString())
+      responseUser.setPhone(tgUser.phone.toString())
+      responseUser.setSelf(tgUser.self)
+      responseUser.setContact(tgUser.contact)
+      responseUser.setMutualcontact(tgUser.mutualContact)
+      responseUser.setDeleted(tgUser.deleted)
+      responseUser.setBot(tgUser.bot)
+      responseUser.setBotchathistory(tgUser.bot)
+      responseUser.setBotnochats(tgUser.botNochats)
+      responseUser.setVerified(tgUser.verified)
+      responseUser.setRestricted(tgUser.restricted)
+      responseUser.setMin(tgUser.min)
+      responseUser.setBotinlinegeo(tgUser.botInlineGeo)
+      responseUser.setSupport(tgUser.support)
+      responseUser.setScam(tgUser.scam)
+      responseUser.setApplyminphoto(tgUser.applyMinPhoto)
+      responseUser.setFake(tgUser.fake)
+
+      const response = new UserResponse()
+      response.setUser(responseUser)
+
+      callback(null, response)
+    }
+    callback(new Error('unknown type'), null)
+  }
 }
 
-export function startServer (client: Telegram) {
+export function startServer (client: Promise<Telegram>, auth: Auth) {
   const server = new grpc.Server()
 
-  server.addService(TelegramService, new ServerImpl(client))
+  server.addService(TelegramService, new ServerImpl(client, auth))
   server.bind(process.env.GRPC_HOST, grpc.ServerCredentials.createInsecure())
   server.start()
 

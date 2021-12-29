@@ -6,12 +6,11 @@
 
 import * as grpc from "grpc";
 import * as telegram_pb from "./telegram_pb";
-import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 interface ITelegramService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     login: ITelegramService_ILogin;
     sign: ITelegramService_ISign;
-    me: ITelegramService_IMe;
+    getUser: ITelegramService_IGetUser;
     send: ITelegramService_ISend;
 }
 
@@ -33,14 +32,14 @@ interface ITelegramService_ISign extends grpc.MethodDefinition<telegram_pb.SignM
     responseSerialize: grpc.serialize<telegram_pb.Result>;
     responseDeserialize: grpc.deserialize<telegram_pb.Result>;
 }
-interface ITelegramService_IMe extends grpc.MethodDefinition<google_protobuf_empty_pb.Empty, telegram_pb.MeResponse> {
-    path: "/telegram.Telegram/Me";
+interface ITelegramService_IGetUser extends grpc.MethodDefinition<telegram_pb.GetUserRequest, telegram_pb.UserResponse> {
+    path: "/telegram.Telegram/GetUser";
     requestStream: false;
     responseStream: false;
-    requestSerialize: grpc.serialize<google_protobuf_empty_pb.Empty>;
-    requestDeserialize: grpc.deserialize<google_protobuf_empty_pb.Empty>;
-    responseSerialize: grpc.serialize<telegram_pb.MeResponse>;
-    responseDeserialize: grpc.deserialize<telegram_pb.MeResponse>;
+    requestSerialize: grpc.serialize<telegram_pb.GetUserRequest>;
+    requestDeserialize: grpc.deserialize<telegram_pb.GetUserRequest>;
+    responseSerialize: grpc.serialize<telegram_pb.UserResponse>;
+    responseDeserialize: grpc.deserialize<telegram_pb.UserResponse>;
 }
 interface ITelegramService_ISend extends grpc.MethodDefinition<telegram_pb.SendMessageRequest, telegram_pb.Result> {
     path: "/telegram.Telegram/Send";
@@ -57,7 +56,7 @@ export const TelegramService: ITelegramService;
 export interface ITelegramServer {
     login: grpc.handleUnaryCall<telegram_pb.LoginMessage, telegram_pb.Result>;
     sign: grpc.handleUnaryCall<telegram_pb.SignMessage, telegram_pb.Result>;
-    me: grpc.handleUnaryCall<google_protobuf_empty_pb.Empty, telegram_pb.MeResponse>;
+    getUser: grpc.handleUnaryCall<telegram_pb.GetUserRequest, telegram_pb.UserResponse>;
     send: grpc.handleUnaryCall<telegram_pb.SendMessageRequest, telegram_pb.Result>;
 }
 
@@ -68,9 +67,9 @@ export interface ITelegramClient {
     sign(request: telegram_pb.SignMessage, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     sign(request: telegram_pb.SignMessage, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     sign(request: telegram_pb.SignMessage, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
-    me(request: google_protobuf_empty_pb.Empty, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
-    me(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
-    me(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
+    getUser(request: telegram_pb.GetUserRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
+    getUser(request: telegram_pb.GetUserRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
+    getUser(request: telegram_pb.GetUserRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
     send(request: telegram_pb.SendMessageRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     send(request: telegram_pb.SendMessageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     send(request: telegram_pb.SendMessageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
@@ -84,9 +83,9 @@ export class TelegramClient extends grpc.Client implements ITelegramClient {
     public sign(request: telegram_pb.SignMessage, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public sign(request: telegram_pb.SignMessage, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public sign(request: telegram_pb.SignMessage, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
-    public me(request: google_protobuf_empty_pb.Empty, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
-    public me(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
-    public me(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.MeResponse) => void): grpc.ClientUnaryCall;
+    public getUser(request: telegram_pb.GetUserRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
+    public getUser(request: telegram_pb.GetUserRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
+    public getUser(request: telegram_pb.GetUserRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.UserResponse) => void): grpc.ClientUnaryCall;
     public send(request: telegram_pb.SendMessageRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public send(request: telegram_pb.SendMessageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public send(request: telegram_pb.SendMessageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;

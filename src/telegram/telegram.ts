@@ -7,7 +7,7 @@ import User = Api.User;
 import { TotalList } from 'telegram/Helpers'
 import { Dialog } from 'telegram/tl/custom/dialog'
 import { KafkaProducer } from '../kafka/kafka'
-import { EntityLike } from 'telegram/define'
+import { Entity, EntityLike } from 'telegram/define'
 
 export class Telegram {
   private kafkaTopic = 'telegram-event'
@@ -15,8 +15,8 @@ export class Telegram {
   private auth: Auth
   private kafkaProducer: KafkaProducer
 
-  private constructor (kafkaProducer: KafkaProducer) {
-    this.auth = new Auth()
+  private constructor (kafkaProducer: KafkaProducer, auth: Auth) {
+    this.auth = auth
     this.kafkaProducer = kafkaProducer
   }
 
@@ -47,14 +47,6 @@ export class Telegram {
     saveSession(<string><unknown> this.client.session.save())
   }
 
-  public login (phone: string) {
-    this.auth.login(phone)
-  }
-
-  public sign (code: string) {
-    this.auth.sing(code)
-  }
-
   public getMe (): Promise<User> {
     return this.client
       .getMe(false)
@@ -66,8 +58,8 @@ export class Telegram {
       .getDialogs({})
   }
 
-  public getUser (peer: EntityLike): Promise<Api.TypeInputPeer> {
-    return this.client.getInputEntity(peer)
+  public getUser (peer: EntityLike): Promise<Entity> {
+    return this.client.getEntity(peer)
   }
 
   public sendMessage (peer: EntityLike, message: string) {

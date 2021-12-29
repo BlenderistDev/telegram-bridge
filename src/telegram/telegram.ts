@@ -20,8 +20,8 @@ export class Telegram {
     this.kafkaProducer = kafkaProducer
   }
 
-  public static createTelegramClient (kafkaProducer: KafkaProducer): Promise<Telegram> {
-    const telegram = new Telegram(kafkaProducer)
+  public static createTelegramClient (kafkaProducer: KafkaProducer, auth: Auth): Promise<Telegram> {
+    const telegram = new Telegram(kafkaProducer, auth)
     return telegram.initClient().then(() => telegram)
   }
 

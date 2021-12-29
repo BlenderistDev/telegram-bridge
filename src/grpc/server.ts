@@ -1,5 +1,6 @@
 import * as grpc from 'grpc'
 
+import { Auth } from '../telegram/auth/auth'
 import { sendUnaryData, ServerUnaryCall } from 'grpc'
 import { ITelegramServer, TelegramService } from './proto/telegram_grpc_pb'
 import { LoginMessage, MeResponse, Result, SendMessageRequest, SignMessage, User } from './proto/telegram_pb'

@@ -11,7 +11,7 @@ export class Auth {
     this.emitter.emit('phone', phone)
   }
 
-  public sing (code: string) {
+  public sign (code: string) {
     this.emitter.emit('code', code)
   }
 

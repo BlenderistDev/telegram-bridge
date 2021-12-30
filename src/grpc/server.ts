@@ -92,8 +92,8 @@ class ServerImpl implements ITelegramServer {
   }
 
   async getDialogs (call: ServerUnaryCall<Empty>, callback: sendUnaryData<DialogsResponse>): Promise<void> {
-    const response = new DialogsResponse()
-    this.tgClient
+    const dialogList: Array<DialogResponse> = []
+    await this.tgClient
       .getDialogs()
       .then(dialogs => dialogs.forEach(dialog => {
         const dialogEntity = new Dialog()
@@ -131,9 +131,11 @@ class ServerImpl implements ITelegramServer {
         dialogResponse.setIsgroup(dialog.isGroup)
         dialogResponse.setIschannel(dialog.isChannel)
 
-        response.addDialogs(dialogResponse)
+        dialogList.push(dialogResponse)
       }))
 
+    const response = new DialogsResponse()
+    response.setDialogsList(dialogList)
     callback(null, response)
   }
 }

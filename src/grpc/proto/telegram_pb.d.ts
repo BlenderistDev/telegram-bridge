@@ -5,6 +5,7 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 export class LoginMessage extends jspb.Message { 
     getPhone(): string;
@@ -206,5 +207,239 @@ export namespace SendMessageRequest {
     export type AsObject = {
         peer: string,
         message: string,
+    }
+}
+
+export class DialogsResponse extends jspb.Message { 
+    clearDialogsList(): void;
+    getDialogsList(): Array<DialogResponse>;
+    setDialogsList(value: Array<DialogResponse>): DialogsResponse;
+    addDialogs(value?: DialogResponse, index?: number): DialogResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DialogsResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: DialogsResponse): DialogsResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DialogsResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DialogsResponse;
+    static deserializeBinaryFromReader(message: DialogsResponse, reader: jspb.BinaryReader): DialogsResponse;
+}
+
+export namespace DialogsResponse {
+    export type AsObject = {
+        dialogsList: Array<DialogResponse.AsObject>,
+    }
+}
+
+export class DialogResponse extends jspb.Message { 
+
+    hasDialog(): boolean;
+    clearDialog(): void;
+    getDialog(): Dialog | undefined;
+    setDialog(value?: Dialog): DialogResponse;
+    getPinned(): boolean;
+    setPinned(value: boolean): DialogResponse;
+    getFolderid(): number;
+    setFolderid(value: number): DialogResponse;
+    getArchived(): boolean;
+    setArchived(value: boolean): DialogResponse;
+
+    hasMessage(): boolean;
+    clearMessage(): void;
+    getMessage(): Message | undefined;
+    setMessage(value?: Message): DialogResponse;
+    getDate(): number;
+    setDate(value: number): DialogResponse;
+    getId(): number;
+    setId(value: number): DialogResponse;
+    getName(): string;
+    setName(value: string): DialogResponse;
+    getTitle(): string;
+    setTitle(value: string): DialogResponse;
+    getUnreadcount(): number;
+    setUnreadcount(value: number): DialogResponse;
+    getUnreadmentionscount(): number;
+    setUnreadmentionscount(value: number): DialogResponse;
+    getIsuser(): boolean;
+    setIsuser(value: boolean): DialogResponse;
+    getIsgroup(): boolean;
+    setIsgroup(value: boolean): DialogResponse;
+    getIschannel(): boolean;
+    setIschannel(value: boolean): DialogResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DialogResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: DialogResponse): DialogResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DialogResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DialogResponse;
+    static deserializeBinaryFromReader(message: DialogResponse, reader: jspb.BinaryReader): DialogResponse;
+}
+
+export namespace DialogResponse {
+    export type AsObject = {
+        dialog?: Dialog.AsObject,
+        pinned: boolean,
+        folderid: number,
+        archived: boolean,
+        message?: Message.AsObject,
+        date: number,
+        id: number,
+        name: string,
+        title: string,
+        unreadcount: number,
+        unreadmentionscount: number,
+        isuser: boolean,
+        isgroup: boolean,
+        ischannel: boolean,
+    }
+}
+
+export class Dialog extends jspb.Message { 
+    getPinned(): boolean;
+    setPinned(value: boolean): Dialog;
+    getUnreadmark(): boolean;
+    setUnreadmark(value: boolean): Dialog;
+    getTopmessage(): number;
+    setTopmessage(value: number): Dialog;
+    getReadinboxmaxid(): number;
+    setReadinboxmaxid(value: number): Dialog;
+    getReadoutboxmaxid(): number;
+    setReadoutboxmaxid(value: number): Dialog;
+    getUnreadcount(): number;
+    setUnreadcount(value: number): Dialog;
+    getUnreadmentionscount(): number;
+    setUnreadmentionscount(value: number): Dialog;
+
+    hasNotifysettings(): boolean;
+    clearNotifysettings(): void;
+    getNotifysettings(): NotifySettings | undefined;
+    setNotifysettings(value?: NotifySettings): Dialog;
+    getPts(): number;
+    setPts(value: number): Dialog;
+    getFolderid(): number;
+    setFolderid(value: number): Dialog;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Dialog.AsObject;
+    static toObject(includeInstance: boolean, msg: Dialog): Dialog.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Dialog, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Dialog;
+    static deserializeBinaryFromReader(message: Dialog, reader: jspb.BinaryReader): Dialog;
+}
+
+export namespace Dialog {
+    export type AsObject = {
+        pinned: boolean,
+        unreadmark: boolean,
+        topmessage: number,
+        readinboxmaxid: number,
+        readoutboxmaxid: number,
+        unreadcount: number,
+        unreadmentionscount: number,
+        notifysettings?: NotifySettings.AsObject,
+        pts: number,
+        folderid: number,
+    }
+}
+
+export class NotifySettings extends jspb.Message { 
+    getShowpreviews(): boolean;
+    setShowpreviews(value: boolean): NotifySettings;
+    getSilent(): boolean;
+    setSilent(value: boolean): NotifySettings;
+    getMuteuntil(): number;
+    setMuteuntil(value: number): NotifySettings;
+    getSound(): string;
+    setSound(value: string): NotifySettings;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): NotifySettings.AsObject;
+    static toObject(includeInstance: boolean, msg: NotifySettings): NotifySettings.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: NotifySettings, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): NotifySettings;
+    static deserializeBinaryFromReader(message: NotifySettings, reader: jspb.BinaryReader): NotifySettings;
+}
+
+export namespace NotifySettings {
+    export type AsObject = {
+        showpreviews: boolean,
+        silent: boolean,
+        muteuntil: number,
+        sound: string,
+    }
+}
+
+export class Message extends jspb.Message { 
+    getOut(): boolean;
+    setOut(value: boolean): Message;
+    getMentioned(): boolean;
+    setMentioned(value: boolean): Message;
+    getMediaunread(): boolean;
+    setMediaunread(value: boolean): Message;
+    getSilent(): boolean;
+    setSilent(value: boolean): Message;
+    getFromscheduled(): boolean;
+    setFromscheduled(value: boolean): Message;
+    getLegacy(): boolean;
+    setLegacy(value: boolean): Message;
+    getEdithide(): boolean;
+    setEdithide(value: boolean): Message;
+    getPinned(): boolean;
+    setPinned(value: boolean): Message;
+    getViabotid(): boolean;
+    setViabotid(value: boolean): Message;
+    getDate(): number;
+    setDate(value: number): Message;
+    getMessage(): string;
+    setMessage(value: string): Message;
+    getViews(): number;
+    setViews(value: number): Message;
+    getForwards(): number;
+    setForwards(value: number): Message;
+    getEditdate(): number;
+    setEditdate(value: number): Message;
+    getPostauthor(): string;
+    setPostauthor(value: string): Message;
+    getGroupedid(): number;
+    setGroupedid(value: number): Message;
+    getTtlperiod(): number;
+    setTtlperiod(value: number): Message;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Message.AsObject;
+    static toObject(includeInstance: boolean, msg: Message): Message.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Message, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Message;
+    static deserializeBinaryFromReader(message: Message, reader: jspb.BinaryReader): Message;
+}
+
+export namespace Message {
+    export type AsObject = {
+        out: boolean,
+        mentioned: boolean,
+        mediaunread: boolean,
+        silent: boolean,
+        fromscheduled: boolean,
+        legacy: boolean,
+        edithide: boolean,
+        pinned: boolean,
+        viabotid: boolean,
+        date: number,
+        message: string,
+        views: number,
+        forwards: number,
+        editdate: number,
+        postauthor: string,
+        groupedid: number,
+        ttlperiod: number,
     }
 }

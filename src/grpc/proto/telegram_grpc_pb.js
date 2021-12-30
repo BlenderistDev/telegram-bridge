@@ -3,6 +3,29 @@
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var proto_telegram_pb = require('../proto/telegram_pb.js');
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+
+function serialize_google_protobuf_Empty(arg) {
+  if (!(arg instanceof google_protobuf_empty_pb.Empty)) {
+    throw new Error('Expected argument of type google.protobuf.Empty');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_google_protobuf_Empty(buffer_arg) {
+  return google_protobuf_empty_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_telegram_DialogsResponse(arg) {
+  if (!(arg instanceof proto_telegram_pb.DialogsResponse)) {
+    throw new Error('Expected argument of type telegram.DialogsResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_DialogsResponse(buffer_arg) {
+  return proto_telegram_pb.DialogsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
 
 function serialize_telegram_GetUserRequest(arg) {
   if (!(arg instanceof proto_telegram_pb.GetUserRequest)) {
@@ -115,6 +138,17 @@ var TelegramService = exports.TelegramService = {
     requestDeserialize: deserialize_telegram_SendMessageRequest,
     responseSerialize: serialize_telegram_Result,
     responseDeserialize: deserialize_telegram_Result,
+  },
+  getDialogs: {
+    path: '/telegram.Telegram/getDialogs',
+    requestStream: false,
+    responseStream: false,
+    requestType: google_protobuf_empty_pb.Empty,
+    responseType: proto_telegram_pb.DialogsResponse,
+    requestSerialize: serialize_google_protobuf_Empty,
+    requestDeserialize: deserialize_google_protobuf_Empty,
+    responseSerialize: serialize_telegram_DialogsResponse,
+    responseDeserialize: deserialize_telegram_DialogsResponse,
   },
 };
 

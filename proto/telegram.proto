@@ -61,6 +61,10 @@ message SendMessageRequest {
 }
 
 message DialogsResponse {
+  repeated DialogResponse dialogs = 1;
+}
+
+message DialogResponse {
   Dialog dialog = 1;
   bool pinned = 2;
   int32 folderId = 3;

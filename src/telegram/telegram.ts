@@ -3,7 +3,6 @@ import { StringSession } from 'telegram/sessions'
 import { Auth } from './auth/auth'
 import { loadSession, saveSession } from './auth/session'
 import { transformEvent } from './eventTransformer'
-import User = Api.User;
 import { TotalList } from 'telegram/Helpers'
 import { Dialog } from 'telegram/tl/custom/dialog'
 import { KafkaProducer } from '../kafka/kafka'
@@ -45,12 +44,6 @@ export class Telegram {
     })
 
     saveSession(<string><unknown> this.client.session.save())
-  }
-
-  public getMe (): Promise<User> {
-    return this.client
-      .getMe(false)
-      .then(me => me instanceof User ? me : null)
   }
 
   public getDialogs (): Promise<TotalList<Dialog>> {

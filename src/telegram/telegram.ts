@@ -58,4 +58,11 @@ export class Telegram {
   public sendMessage (peer: EntityLike, message: string) {
     return this.client.sendMessage(peer, { message: message })
   }
+
+  public setNotifySettings (peer: Api.TypeInputNotifyPeer, settings: Api.TypeInputPeerNotifySettings) {
+    return this.client.invoke(new Api.account.UpdateNotifySettings({
+      peer: peer,
+      settings: settings
+    }))
+  }
 }

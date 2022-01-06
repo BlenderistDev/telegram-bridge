@@ -10,7 +10,7 @@ import {
   GetUserRequest,
   LoginMessage, NotifySettings,
   Result,
-  SendMessageRequest,
+  SendMessageRequest, SetNotifySettingsRequest,
   SignMessage,
   User,
   UserResponse
@@ -136,6 +136,28 @@ class ServerImpl implements ITelegramServer {
 
     const response = new DialogsResponse()
     response.setDialogsList(dialogList)
+    callback(null, response)
+  }
+
+  async setUserNotifySettings (call: ServerUnaryCall<SetNotifySettingsRequest>, callback: sendUnaryData<Result>): Promise<void> {
+    const peer = new Api.InputNotifyPeer({
+      peer: new Api.InputPeerUser({
+        userId: call.request.getPeer().getId(),
+        accessHash: call.request.getPeer().getAccesshash()
+      })
+    })
+
+    const settings = new Api.InputPeerNotifySettings({
+      silent: call.request.getNotifysettings().getSilent(),
+      muteUntil: call.request.getNotifysettings().getMuteuntil(),
+      sound: call.request.getNotifysettings().getSound(),
+      showPreviews: call.request.getNotifysettings().getShowpreviews()
+    })
+
+    const res = await this.tgClient.setNotifySettings(peer, settings)
+
+    const response = new Result()
+    response.setSuccess(res)
     callback(null, response)
   }
 }

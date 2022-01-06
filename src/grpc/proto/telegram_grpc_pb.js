@@ -71,6 +71,17 @@ function deserialize_telegram_SendMessageRequest(buffer_arg) {
   return proto_telegram_pb.SendMessageRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_telegram_SetNotifySettingsRequest(arg) {
+  if (!(arg instanceof proto_telegram_pb.SetNotifySettingsRequest)) {
+    throw new Error('Expected argument of type telegram.SetNotifySettingsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_SetNotifySettingsRequest(buffer_arg) {
+  return proto_telegram_pb.SetNotifySettingsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_telegram_SignMessage(arg) {
   if (!(arg instanceof proto_telegram_pb.SignMessage)) {
     throw new Error('Expected argument of type telegram.SignMessage');
@@ -149,6 +160,17 @@ var TelegramService = exports.TelegramService = {
     requestDeserialize: deserialize_google_protobuf_Empty,
     responseSerialize: serialize_telegram_DialogsResponse,
     responseDeserialize: deserialize_telegram_DialogsResponse,
+  },
+  setUserNotifySettings: {
+    path: '/telegram.Telegram/setUserNotifySettings',
+    requestStream: false,
+    responseStream: false,
+    requestType: proto_telegram_pb.SetNotifySettingsRequest,
+    responseType: proto_telegram_pb.Result,
+    requestSerialize: serialize_telegram_SetNotifySettingsRequest,
+    requestDeserialize: deserialize_telegram_SetNotifySettingsRequest,
+    responseSerialize: serialize_telegram_Result,
+    responseDeserialize: deserialize_telegram_Result,
   },
 };
 

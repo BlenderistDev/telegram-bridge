@@ -14,6 +14,7 @@ interface ITelegramService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
     getUser: ITelegramService_IGetUser;
     send: ITelegramService_ISend;
     getDialogs: ITelegramService_IgetDialogs;
+    setUserNotifySettings: ITelegramService_IsetUserNotifySettings;
 }
 
 interface ITelegramService_ILogin extends grpc.MethodDefinition<telegram_pb.LoginMessage, telegram_pb.Result> {
@@ -61,6 +62,15 @@ interface ITelegramService_IgetDialogs extends grpc.MethodDefinition<google_prot
     responseSerialize: grpc.serialize<telegram_pb.DialogsResponse>;
     responseDeserialize: grpc.deserialize<telegram_pb.DialogsResponse>;
 }
+interface ITelegramService_IsetUserNotifySettings extends grpc.MethodDefinition<telegram_pb.SetNotifySettingsRequest, telegram_pb.Result> {
+    path: "/telegram.Telegram/setUserNotifySettings";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<telegram_pb.SetNotifySettingsRequest>;
+    requestDeserialize: grpc.deserialize<telegram_pb.SetNotifySettingsRequest>;
+    responseSerialize: grpc.serialize<telegram_pb.Result>;
+    responseDeserialize: grpc.deserialize<telegram_pb.Result>;
+}
 
 export const TelegramService: ITelegramService;
 
@@ -70,6 +80,7 @@ export interface ITelegramServer {
     getUser: grpc.handleUnaryCall<telegram_pb.GetUserRequest, telegram_pb.UserResponse>;
     send: grpc.handleUnaryCall<telegram_pb.SendMessageRequest, telegram_pb.Result>;
     getDialogs: grpc.handleUnaryCall<google_protobuf_empty_pb.Empty, telegram_pb.DialogsResponse>;
+    setUserNotifySettings: grpc.handleUnaryCall<telegram_pb.SetNotifySettingsRequest, telegram_pb.Result>;
 }
 
 export interface ITelegramClient {
@@ -88,6 +99,9 @@ export interface ITelegramClient {
     getDialogs(request: google_protobuf_empty_pb.Empty, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
     getDialogs(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
     getDialogs(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
+    setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
 }
 
 export class TelegramClient extends grpc.Client implements ITelegramClient {
@@ -107,4 +121,7 @@ export class TelegramClient extends grpc.Client implements ITelegramClient {
     public getDialogs(request: google_protobuf_empty_pb.Empty, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
     public getDialogs(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
     public getDialogs(request: google_protobuf_empty_pb.Empty, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.DialogsResponse) => void): grpc.ClientUnaryCall;
+    public setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    public setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    public setUserNotifySettings(request: telegram_pb.SetNotifySettingsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
 }

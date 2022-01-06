@@ -8,9 +8,9 @@ import {
   DialogResponse,
   DialogsResponse,
   GetUserRequest,
-  LoginMessage, NotifySettings,
+  LoginMessage, MuteUserRequest, NotifySettings,
   Result,
-  SendMessageRequest, SetNotifySettingsRequest,
+  SendMessageRequest,
   SignMessage,
   User,
   UserResponse
@@ -18,6 +18,7 @@ import {
 import { Telegram } from '../telegram/telegram'
 import { Api } from 'telegram'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
+import {mute, unMute} from './notifySettings/factory'
 
 class ServerImpl implements ITelegramServer {
   private tgClient: Telegram
@@ -139,20 +140,20 @@ class ServerImpl implements ITelegramServer {
     callback(null, response)
   }
 
-  async setUserNotifySettings (call: ServerUnaryCall<SetNotifySettingsRequest>, callback: sendUnaryData<Result>): Promise<void> {
+  async muteUser (call: ServerUnaryCall<MuteUserRequest>, callback: sendUnaryData<Result>): Promise<void> {
     const peer = new Api.InputNotifyPeer({
       peer: new Api.InputPeerUser({
-        userId: call.request.getPeer().getId(),
-        accessHash: call.request.getPeer().getAccesshash()
+        userId: call.request.getId(),
+        accessHash: call.request.getAccesshash()
       })
     })
 
-    const settings = new Api.InputPeerNotifySettings({
-      silent: call.request.getNotifysettings().getSilent(),
-      muteUntil: call.request.getNotifysettings().getMuteuntil(),
-      sound: call.request.getNotifysettings().getSound(),
-      showPreviews: call.request.getNotifysettings().getShowpreviews()
-    })
+    let settings: Api.InputPeerNotifySettings
+    if (call.request.getUnmute()) {
+      settings = unMute
+    } else {
+      settings = mute
+    }
 
     const res = await this.tgClient.setNotifySettings(peer, settings)
 

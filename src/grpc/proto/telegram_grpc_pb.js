@@ -49,6 +49,17 @@ function deserialize_telegram_LoginMessage(buffer_arg) {
   return proto_telegram_pb.LoginMessage.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_telegram_MuteUserRequest(arg) {
+  if (!(arg instanceof proto_telegram_pb.MuteUserRequest)) {
+    throw new Error('Expected argument of type telegram.MuteUserRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_MuteUserRequest(buffer_arg) {
+  return proto_telegram_pb.MuteUserRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_telegram_Result(arg) {
   if (!(arg instanceof proto_telegram_pb.Result)) {
     throw new Error('Expected argument of type telegram.Result');
@@ -69,17 +80,6 @@ function serialize_telegram_SendMessageRequest(arg) {
 
 function deserialize_telegram_SendMessageRequest(buffer_arg) {
   return proto_telegram_pb.SendMessageRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_telegram_SetNotifySettingsRequest(arg) {
-  if (!(arg instanceof proto_telegram_pb.SetNotifySettingsRequest)) {
-    throw new Error('Expected argument of type telegram.SetNotifySettingsRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_telegram_SetNotifySettingsRequest(buffer_arg) {
-  return proto_telegram_pb.SetNotifySettingsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_telegram_SignMessage(arg) {
@@ -161,14 +161,14 @@ var TelegramService = exports.TelegramService = {
     responseSerialize: serialize_telegram_DialogsResponse,
     responseDeserialize: deserialize_telegram_DialogsResponse,
   },
-  setUserNotifySettings: {
-    path: '/telegram.Telegram/setUserNotifySettings',
+  muteUser: {
+    path: '/telegram.Telegram/MuteUser',
     requestStream: false,
     responseStream: false,
-    requestType: proto_telegram_pb.SetNotifySettingsRequest,
+    requestType: proto_telegram_pb.MuteUserRequest,
     responseType: proto_telegram_pb.Result,
-    requestSerialize: serialize_telegram_SetNotifySettingsRequest,
-    requestDeserialize: deserialize_telegram_SetNotifySettingsRequest,
+    requestSerialize: serialize_telegram_MuteUserRequest,
+    requestDeserialize: deserialize_telegram_MuteUserRequest,
     responseSerialize: serialize_telegram_Result,
     responseDeserialize: deserialize_telegram_Result,
   },

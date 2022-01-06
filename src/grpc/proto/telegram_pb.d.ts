@@ -444,54 +444,28 @@ export namespace Message {
     }
 }
 
-export class Peer extends jspb.Message { 
+export class MuteUserRequest extends jspb.Message { 
     getId(): string;
-    setId(value: string): Peer;
+    setId(value: string): MuteUserRequest;
     getAccesshash(): string;
-    setAccesshash(value: string): Peer;
+    setAccesshash(value: string): MuteUserRequest;
+    getUnmute(): boolean;
+    setUnmute(value: boolean): MuteUserRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): Peer.AsObject;
-    static toObject(includeInstance: boolean, msg: Peer): Peer.AsObject;
+    toObject(includeInstance?: boolean): MuteUserRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: MuteUserRequest): MuteUserRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: Peer, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): Peer;
-    static deserializeBinaryFromReader(message: Peer, reader: jspb.BinaryReader): Peer;
+    static serializeBinaryToWriter(message: MuteUserRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MuteUserRequest;
+    static deserializeBinaryFromReader(message: MuteUserRequest, reader: jspb.BinaryReader): MuteUserRequest;
 }
 
-export namespace Peer {
+export namespace MuteUserRequest {
     export type AsObject = {
         id: string,
         accesshash: string,
-    }
-}
-
-export class SetNotifySettingsRequest extends jspb.Message { 
-
-    hasPeer(): boolean;
-    clearPeer(): void;
-    getPeer(): Peer | undefined;
-    setPeer(value?: Peer): SetNotifySettingsRequest;
-
-    hasNotifysettings(): boolean;
-    clearNotifysettings(): void;
-    getNotifysettings(): NotifySettings | undefined;
-    setNotifysettings(value?: NotifySettings): SetNotifySettingsRequest;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): SetNotifySettingsRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: SetNotifySettingsRequest): SetNotifySettingsRequest.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: SetNotifySettingsRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): SetNotifySettingsRequest;
-    static deserializeBinaryFromReader(message: SetNotifySettingsRequest, reader: jspb.BinaryReader): SetNotifySettingsRequest;
-}
-
-export namespace SetNotifySettingsRequest {
-    export type AsObject = {
-        peer?: Peer.AsObject,
-        notifysettings?: NotifySettings.AsObject,
+        unmute: boolean,
     }
 }

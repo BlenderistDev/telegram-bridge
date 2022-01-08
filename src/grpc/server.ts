@@ -8,7 +8,7 @@ import {
   DialogResponse,
   DialogsResponse,
   GetUserRequest,
-  LoginMessage, MuteUserRequest, NotifySettings,
+  LoginMessage, MuteChatRequest, MuteUserRequest, NotifySettings,
   Result,
   SendMessageRequest,
   SignMessage,
@@ -18,7 +18,7 @@ import {
 import { Telegram } from '../telegram/telegram'
 import { Api } from 'telegram'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
-import {mute, unMute} from './notifySettings/factory'
+import { mute, unMute } from './notifySettings/factory'
 
 class ServerImpl implements ITelegramServer {
   private tgClient: Telegram
@@ -148,6 +148,20 @@ class ServerImpl implements ITelegramServer {
       })
     })
 
+    await this.mute(call, peer, callback)
+  }
+
+  async muteChat (call: ServerUnaryCall<MuteChatRequest>, callback: sendUnaryData<Result>): Promise<void> {
+    const peer = new Api.InputNotifyPeer({
+      peer: new Api.InputPeerChat({
+        chatId: call.request.getId()
+      })
+    })
+
+    await this.mute(call, peer, callback)
+  }
+
+  private async mute (call: ServerUnaryCall<MuteChatRequest|MuteUserRequest>, peer: Api.InputNotifyPeer, callback: sendUnaryData<Result>) {
     let settings: Api.InputPeerNotifySettings
     if (call.request.getUnmute()) {
       settings = unMute

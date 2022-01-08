@@ -15,6 +15,7 @@ interface ITelegramService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
     send: ITelegramService_ISend;
     getDialogs: ITelegramService_IgetDialogs;
     muteUser: ITelegramService_IMuteUser;
+    muteChat: ITelegramService_IMuteChat;
 }
 
 interface ITelegramService_ILogin extends grpc.MethodDefinition<telegram_pb.LoginMessage, telegram_pb.Result> {
@@ -71,6 +72,15 @@ interface ITelegramService_IMuteUser extends grpc.MethodDefinition<telegram_pb.M
     responseSerialize: grpc.serialize<telegram_pb.Result>;
     responseDeserialize: grpc.deserialize<telegram_pb.Result>;
 }
+interface ITelegramService_IMuteChat extends grpc.MethodDefinition<telegram_pb.MuteChatRequest, telegram_pb.Result> {
+    path: "/telegram.Telegram/MuteChat";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<telegram_pb.MuteChatRequest>;
+    requestDeserialize: grpc.deserialize<telegram_pb.MuteChatRequest>;
+    responseSerialize: grpc.serialize<telegram_pb.Result>;
+    responseDeserialize: grpc.deserialize<telegram_pb.Result>;
+}
 
 export const TelegramService: ITelegramService;
 
@@ -81,6 +91,7 @@ export interface ITelegramServer {
     send: grpc.handleUnaryCall<telegram_pb.SendMessageRequest, telegram_pb.Result>;
     getDialogs: grpc.handleUnaryCall<google_protobuf_empty_pb.Empty, telegram_pb.DialogsResponse>;
     muteUser: grpc.handleUnaryCall<telegram_pb.MuteUserRequest, telegram_pb.Result>;
+    muteChat: grpc.handleUnaryCall<telegram_pb.MuteChatRequest, telegram_pb.Result>;
 }
 
 export interface ITelegramClient {
@@ -102,6 +113,9 @@ export interface ITelegramClient {
     muteUser(request: telegram_pb.MuteUserRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     muteUser(request: telegram_pb.MuteUserRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     muteUser(request: telegram_pb.MuteUserRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    muteChat(request: telegram_pb.MuteChatRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    muteChat(request: telegram_pb.MuteChatRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    muteChat(request: telegram_pb.MuteChatRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
 }
 
 export class TelegramClient extends grpc.Client implements ITelegramClient {
@@ -124,4 +138,7 @@ export class TelegramClient extends grpc.Client implements ITelegramClient {
     public muteUser(request: telegram_pb.MuteUserRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public muteUser(request: telegram_pb.MuteUserRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
     public muteUser(request: telegram_pb.MuteUserRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    public muteChat(request: telegram_pb.MuteChatRequest, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    public muteChat(request: telegram_pb.MuteChatRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
+    public muteChat(request: telegram_pb.MuteChatRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: telegram_pb.Result) => void): grpc.ClientUnaryCall;
 }

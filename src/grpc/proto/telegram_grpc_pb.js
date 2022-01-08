@@ -49,6 +49,17 @@ function deserialize_telegram_LoginMessage(buffer_arg) {
   return proto_telegram_pb.LoginMessage.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_telegram_MuteChatRequest(arg) {
+  if (!(arg instanceof proto_telegram_pb.MuteChatRequest)) {
+    throw new Error('Expected argument of type telegram.MuteChatRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_MuteChatRequest(buffer_arg) {
+  return proto_telegram_pb.MuteChatRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_telegram_MuteUserRequest(arg) {
   if (!(arg instanceof proto_telegram_pb.MuteUserRequest)) {
     throw new Error('Expected argument of type telegram.MuteUserRequest');
@@ -169,6 +180,17 @@ var TelegramService = exports.TelegramService = {
     responseType: proto_telegram_pb.Result,
     requestSerialize: serialize_telegram_MuteUserRequest,
     requestDeserialize: deserialize_telegram_MuteUserRequest,
+    responseSerialize: serialize_telegram_Result,
+    responseDeserialize: deserialize_telegram_Result,
+  },
+  muteChat: {
+    path: '/telegram.Telegram/MuteChat',
+    requestStream: false,
+    responseStream: false,
+    requestType: proto_telegram_pb.MuteChatRequest,
+    responseType: proto_telegram_pb.Result,
+    requestSerialize: serialize_telegram_MuteChatRequest,
+    requestDeserialize: deserialize_telegram_MuteChatRequest,
     responseSerialize: serialize_telegram_Result,
     responseDeserialize: deserialize_telegram_Result,
   },

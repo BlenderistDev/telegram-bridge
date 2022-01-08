@@ -469,3 +469,26 @@ export namespace MuteUserRequest {
         unmute: boolean,
     }
 }
+
+export class MuteChatRequest extends jspb.Message { 
+    getId(): string;
+    setId(value: string): MuteChatRequest;
+    getUnmute(): boolean;
+    setUnmute(value: boolean): MuteChatRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MuteChatRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: MuteChatRequest): MuteChatRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MuteChatRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MuteChatRequest;
+    static deserializeBinaryFromReader(message: MuteChatRequest, reader: jspb.BinaryReader): MuteChatRequest;
+}
+
+export namespace MuteChatRequest {
+    export type AsObject = {
+        id: string,
+        unmute: boolean,
+    }
+}

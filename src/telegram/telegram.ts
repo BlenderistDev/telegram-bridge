@@ -51,6 +51,13 @@ export class Telegram {
       .getDialogs({})
   }
 
+  public getChats () {
+    return this.client
+      .invoke(new Api.messages.GetAllChats({
+        exceptIds: []
+      }))
+  }
+
   public getUser (peer: EntityLike): Promise<Entity> {
     return this.client.getEntity(peer)
   }

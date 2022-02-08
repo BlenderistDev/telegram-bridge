@@ -123,7 +123,7 @@ class ServerImpl implements ITelegramServer {
         dialogResponse.setArchived(dialog.archived)
         // @ todo message
         dialogResponse.setDate(dialog.date)
-        dialogResponse.setId(dialog.id)
+        // @todo id
         dialogResponse.setName(dialog.name)
         dialogResponse.setTitle(dialog.title)
         dialogResponse.setUnreadcount(dialog.unreadCount)
@@ -143,7 +143,9 @@ class ServerImpl implements ITelegramServer {
   async muteUser (call: ServerUnaryCall<MuteUserRequest>, callback: sendUnaryData<Result>): Promise<void> {
     const peer = new Api.InputNotifyPeer({
       peer: new Api.InputPeerUser({
+        // @ts-ignore
         userId: call.request.getId(),
+        // @ts-ignore
         accessHash: call.request.getAccesshash()
       })
     })
@@ -154,6 +156,7 @@ class ServerImpl implements ITelegramServer {
   async muteChat (call: ServerUnaryCall<MuteChatRequest>, callback: sendUnaryData<Result>): Promise<void> {
     const peer = new Api.InputNotifyPeer({
       peer: new Api.InputPeerChat({
+        // @ts-ignore
         chatId: call.request.getId()
       })
     })

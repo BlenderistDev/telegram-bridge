@@ -4,6 +4,12 @@ export class KafkaProducer {
   private client: Producer
 
   public static init () {
+    if (!process.env.KAFKA_CLIENT_ID) {
+      throw Error("Undefined KAFKA_CLIENT_ID env")
+    }
+    if (!process.env.KAKFA_HOST) {
+      throw Error("Undefined KAKFA_HOST env")
+    }
     const kafkaProducer = new KafkaProducer()
     const client = new Kafka({
       clientId: process.env.KAFKA_CLIENT_ID,

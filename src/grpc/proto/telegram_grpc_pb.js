@@ -104,6 +104,17 @@ function deserialize_telegram_SignMessage(buffer_arg) {
   return proto_telegram_pb.SignMessage.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_telegram_SignResult(arg) {
+  if (!(arg instanceof proto_telegram_pb.SignResult)) {
+    throw new Error('Expected argument of type telegram.SignResult');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_telegram_SignResult(buffer_arg) {
+  return proto_telegram_pb.SignResult.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_telegram_UserResponse(arg) {
   if (!(arg instanceof proto_telegram_pb.UserResponse)) {
     throw new Error('Expected argument of type telegram.UserResponse');
@@ -133,11 +144,11 @@ var TelegramService = exports.TelegramService = {
     requestStream: false,
     responseStream: false,
     requestType: proto_telegram_pb.SignMessage,
-    responseType: proto_telegram_pb.Result,
+    responseType: proto_telegram_pb.SignResult,
     requestSerialize: serialize_telegram_SignMessage,
     requestDeserialize: deserialize_telegram_SignMessage,
-    responseSerialize: serialize_telegram_Result,
-    responseDeserialize: deserialize_telegram_Result,
+    responseSerialize: serialize_telegram_SignResult,
+    responseDeserialize: deserialize_telegram_SignResult,
   },
   getUser: {
     path: '/telegram.Telegram/GetUser',

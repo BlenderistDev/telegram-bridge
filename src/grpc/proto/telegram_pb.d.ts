@@ -47,6 +47,26 @@ export namespace SignMessage {
     }
 }
 
+export class SignResult extends jspb.Message { 
+    getSession(): string;
+    setSession(value: string): SignResult;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): SignResult.AsObject;
+    static toObject(includeInstance: boolean, msg: SignResult): SignResult.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: SignResult, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): SignResult;
+    static deserializeBinaryFromReader(message: SignResult, reader: jspb.BinaryReader): SignResult;
+}
+
+export namespace SignResult {
+    export type AsObject = {
+        session: string,
+    }
+}
+
 export class Result extends jspb.Message { 
     getSuccess(): boolean;
     setSuccess(value: boolean): Result;

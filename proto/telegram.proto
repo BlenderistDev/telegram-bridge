@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 
 service Telegram {
   rpc Login(LoginMessage) returns (Result) {};
-  rpc Sign(SignMessage) returns (Result) {};
+  rpc Sign(SignMessage) returns (SignResult) {};
   rpc GetUser(GetUserRequest) returns (UserResponse) {};
   rpc Send(SendMessageRequest) returns (Result) {};
   rpc getDialogs(google.protobuf.Empty) returns (DialogsResponse) {};
@@ -20,6 +20,10 @@ message LoginMessage {
 
 message SignMessage {
   string code = 1;
+}
+
+message SignResult {
+  string session = 1;
 }
 
 message Result {

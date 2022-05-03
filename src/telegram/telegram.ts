@@ -1,7 +1,5 @@
 import { Api, TelegramClient } from 'telegram'
-import { StringSession } from 'telegram/sessions'
 import { Auth } from './auth/auth'
-import { loadSession, saveSession } from './auth/session'
 import { transformEvent } from './eventTransformer'
 import { TotalList } from 'telegram/Helpers'
 import { Dialog } from 'telegram/tl/custom/dialog'
@@ -11,16 +9,18 @@ import { Entity, EntityLike } from 'telegram/define'
 export class Telegram {
   private kafkaTopic = 'telegram-event'
   private client: TelegramClient
-  private auth: Auth
+  private readonly auth: Auth
   private kafkaProducer: KafkaProducer
+  private readonly session: string
 
-  private constructor (kafkaProducer: KafkaProducer, auth: Auth) {
+  private constructor (kafkaProducer: KafkaProducer, auth: Auth, session: string) {
     this.auth = auth
     this.kafkaProducer = kafkaProducer
+    this.session = session
   }
 
-  public static createTelegramClient (kafkaProducer: KafkaProducer, auth: Auth): Promise<Telegram> {
-    const telegram = new Telegram(kafkaProducer, auth)
+  public static createTelegramClient (kafkaProducer: KafkaProducer, auth: Auth, session: string): Promise<Telegram> {
+    const telegram = new Telegram(kafkaProducer, auth, session)
     return telegram.initClient().then(() => telegram)
   }
 
@@ -28,9 +28,7 @@ export class Telegram {
     const apiId = parseInt(process.env.APP_ID)
     const apiHash = process.env.APP_HASH
 
-    const stringSession = new StringSession(loadSession())
-
-    this.client = new TelegramClient(stringSession, apiId, apiHash, { connectionRetries: 5 })
+    this.client = new TelegramClient(this.session, apiId, apiHash, { connectionRetries: 5 })
 
     await this.client.start({
       phoneNumber: async () => await this.auth.getPhone(),
@@ -42,8 +40,10 @@ export class Telegram {
       const event = transformEvent(update)
       this.kafkaProducer.send(this.kafkaTopic, JSON.stringify(event))
     })
+  }
 
-    saveSession(<string><unknown> this.client.session.save())
+  public getSession(): string {
+    return <string><unknown> this.client.session.save()
   }
 
   public getDialogs (): Promise<TotalList<Dialog>> {
@@ -71,5 +71,9 @@ export class Telegram {
       peer: peer,
       settings: settings
     }))
+  }
+
+  public getAuth(): Auth {
+    return this.auth
   }
 }

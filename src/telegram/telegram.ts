@@ -6,21 +6,24 @@ import { Dialog } from 'telegram/tl/custom/dialog'
 import { KafkaProducer } from '../kafka/kafka'
 import { Entity, EntityLike } from 'telegram/define'
 
+const kafkaTopic = 'telegram-event'
+
 export class Telegram {
-  private kafkaTopic = 'telegram-event'
+  private readonly kafkaTopic: string
   private client: TelegramClient
   private readonly auth: Auth
   private kafkaProducer: KafkaProducer
   private readonly session: string
 
-  private constructor (kafkaProducer: KafkaProducer, auth: Auth, session: string) {
+  private constructor (id: string, kafkaProducer: KafkaProducer, auth: Auth, session: string) {
     this.auth = auth
     this.kafkaProducer = kafkaProducer
     this.session = session
+    this.kafkaTopic = `${kafkaTopic}-${id}`
   }
 
-  public static createTelegramClient (kafkaProducer: KafkaProducer, auth: Auth, session: string): Promise<Telegram> {
-    const telegram = new Telegram(kafkaProducer, auth, session)
+  public static createTelegramClient (id: string, kafkaProducer: KafkaProducer, auth: Auth, session: string): Promise<Telegram> {
+    const telegram = new Telegram(id, kafkaProducer, auth, session)
     return telegram.initClient().then(() => telegram)
   }
 

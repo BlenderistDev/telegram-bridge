@@ -14,7 +14,7 @@ export class ClientPool {
     if (this.clients.has(id)) {
       return new Promise(resolve => resolve(this.clients.get(id)))
     } else {
-      let client = await Telegram.createTelegramClient(this.kafka, new Auth(), session)
+      let client = await Telegram.createTelegramClient(id, this.kafka, new Auth(), session)
       this.clients.set(id, client)
       return client
     }

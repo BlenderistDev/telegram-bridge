@@ -8,6 +8,7 @@ export class ClientPool {
 
   public constructor(kafka: KafkaProducer) {
     this.kafka = kafka
+    this.clients = new Map<string, Telegram>()
   }
 
   public async getClient(id: string, session: string): Promise<Telegram> {

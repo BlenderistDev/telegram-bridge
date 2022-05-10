@@ -5,6 +5,7 @@ import { TotalList } from 'telegram/Helpers'
 import { Dialog } from 'telegram/tl/custom/dialog'
 import { KafkaProducer } from '../kafka/kafka'
 import { Entity, EntityLike } from 'telegram/define'
+import { StringSession } from "telegram/sessions";
 
 const kafkaTopic = 'telegram-event'
 
@@ -31,7 +32,8 @@ export class Telegram {
     const apiId = parseInt(process.env.APP_ID)
     const apiHash = process.env.APP_HASH
 
-    this.client = new TelegramClient(this.session, apiId, apiHash, { connectionRetries: 5 })
+    const session = new StringSession(this.session)
+    this.client = new TelegramClient(session, apiId, apiHash, { connectionRetries: 5 })
 
     await this.client.start({
       phoneNumber: async () => await this.auth.getPhone(),

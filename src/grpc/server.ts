@@ -97,8 +97,9 @@ class ServerImpl implements ITelegramServer {
       response.setUser(responseUser)
 
       callback(null, response)
+    } else {
+      callback(new Error('unknown type'), null)
     }
-    callback(new Error('unknown type'), null)
   }
 
   async getDialogs (call: ServerUnaryCall<Empty>, callback: sendUnaryData<DialogsResponse>): Promise<void> {
